@@ -1,0 +1,32 @@
+{
+package parser
+}
+
+Start <- WS* ops:Ops? WS* !. {
+    return ops, nil
+}
+
+Ops <- first:Op rest:(WS+ Op)* {
+    ops := append([]interface{}{first}, rest.([]interface{})...)    
+    return ops, nil
+}
+
+Op <- SendOp
+
+SendOp <- src:Identifier WS* '-' '>' WS* dst:Identifier WS* ':' WS* msg:Message {
+    return SendOp{
+        Src: src.(string),
+        Dst: dst.(string),
+        Message: msg.(string),
+    }, nil
+}
+
+Identifier <- [a-zA-Z][a-zA-Z0-9]* {
+    return string(c.text), nil
+}
+
+Message <- [^\r\n]+ {
+    return string(c.text), nil
+}
+
+WS <- [ \n\t\r]
