@@ -2,10 +2,19 @@
 
 Proof of Concept Sequence Diagram Generator
 
-## build
+## generate
+
+Install https://github.com/mna/pigeon and then:
 
 ```bash
 go generate ./...
+```
+
+This is only necessary if the PEG grammar changes.
+
+## build
+
+```bash
 env GOOS=js GOARCH=wasm go build -v -o dist/main.wasm .
 ```
 
